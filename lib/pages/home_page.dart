@@ -53,10 +53,11 @@ class _HomePageState extends State<HomePage> {
           return _taskList();
         } else {
           return const Center(
-              child: CircularProgressIndicator(
-            backgroundColor: Colors.grey,
-            color: Colors.yellowAccent,
-          ));
+            child: CircularProgressIndicator(
+              backgroundColor: Colors.grey,
+              color: Colors.yellowAccent,
+            ),
+          );
         }
       },
     );
@@ -64,35 +65,6 @@ class _HomePageState extends State<HomePage> {
 
   Widget _taskList() {
     List tasks = _box!.values.toList();
-
-    // Task task = Task(
-    //   content: "Hello, Let's see if this is working or not",
-    //   timestamp: DateTime.now(),
-    //   isDone: false,
-    // );
-
-    // _box?.add(task.toMap());
-
-    // return ListView(
-    //   children: [
-    //     ListTile(
-    //       tileColor: const Color.fromARGB(255, 0, 228, 118),
-    //       title: const Text(
-    //         "Do Homework!",
-    //         style: TextStyle(
-    //           decoration: TextDecoration.lineThrough,
-    //         ),
-    //       ),
-    //       subtitle: Text(
-    //         DateTime.now().toString(),
-    //       ),
-    //       trailing: const Icon(
-    //         Icons.check_box_outlined,
-    //         color: Color.fromARGB(255, 47, 125, 49),
-    //       ),
-    //     ),
-    //   ],
-    // );
 
     return ListView.builder(
       itemCount: tasks.length,
@@ -152,49 +124,52 @@ class _HomePageState extends State<HomePage> {
 
   void _taskDisplayPopup() {
     showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text("Add new Task!"),
-            titleTextStyle: const TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-              fontSize: 25,
-            ),
-            contentTextStyle: const TextStyle(
-              fontSize: 20,
-            ),
-            backgroundColor: Colors.white70,
-            shadowColor: Colors.black,
-            surfaceTintColor: Colors.green,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            content: TextField(
-              onSubmitted: (_) {
-                if (_newTaskContent != null) {
-                  Task task = Task(
-                    content: _newTaskContent!,
-                    timestamp: DateTime.now(),
-                    isDone: false,
-                  );
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Add new Task!"),
+          titleTextStyle: const TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+            fontSize: 25,
+          ),
+          contentTextStyle: const TextStyle(
+            fontSize: 20,
+          ),
+          backgroundColor: Colors.white70,
+          shadowColor: Colors.black,
+          surfaceTintColor: Colors.green,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          content: TextField(
+            onSubmitted: (_) {
+              if (_newTaskContent != null) {
+                Task task = Task(
+                  content: _newTaskContent!,
+                  timestamp: DateTime.now(),
+                  isDone: false,
+                );
 
-                  _box?.add(task.toMap());
+                _box?.add(task.toMap());
 
-                  setState(() {
-                    _newTaskContent = null;
-
-                    Navigator.pop(context);
-                  });
-                }
-              },
-              onChanged: (value) {
                 setState(() {
-                  _newTaskContent = value;
+                  _newTaskContent = null;
+
+                  Navigator.pop(context);
                 });
-              },
-            ),
-          );
-        });
+              }
+            },
+            onChanged: (value) {
+              setState(
+                () {
+                  _newTaskContent = value;
+                },
+              );
+            },
+          ),
+        );
+      },
+    );
   }
 }
